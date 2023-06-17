@@ -1,0 +1,55 @@
+﻿@model Web.Areas.Admin.Models.RoleViewModel
+@using System.Reflection
+@using Core.Consts
+<form method="post">
+    @Html.HiddenFor(m => m.RoleInput.Id)
+    <div class="row">
+        <partial name="~/Views/Shared/_message.cshtml" model="Model" />
+        <div class="form-group col-md-4">
+            <label asp-for="RoleInput.Name" class="text-md-right"></label>
+            <input asp-for="RoleInput.Name" type="text" class="form-control" />
+            <span asp-validation-for="RoleInput.Name" class="text-danger field-validation-error"></span>
+        </div>
+
+
+
+        @*        <div class="checkbox-inline col-md-1">
+            <label class="kt-checkbox kt-checkbox--bold kt-checkbox--success" cheched="" asp-for="RoleInput.Active">
+            <input asp-for="RoleInput.Active" />مفعل
+            <span></span>
+            </label>
+            </div>*@
+        <hr style="background-color: gold;width:98%;">
+        <div class="clearfix"></div>
+
+        @foreach (var permission in typeof(Permissions).GetNestedTypes())
+        {
+            <div class="form-group col-md-12">
+                <h5 style="margin-top: 25px; font-weight: bold" class="text-warning">@permission.Name</h5>
+                <hr style="background-color: gold;" />
+                <div class="checkbox-inline">
+                    @foreach (var item in permission.GetFields(BindingFlags.Static | BindingFlags.Public).Where(y => y.IsLiteral))
+                    {
+                        var index = Guid.NewGuid();
+                        <input type="hidden" name="RoleInput.RoleClaims.Index" value="@index" />
+                        var claim = item.GetValue(null).ToString();
+                        <label class="checkbox checkbox--bold checkbox--success">
+                            <input type="checkbox" name="RoleInput.RoleClaims[@index].ClaimValue" value="@claim"
+                           @(Model.RoleInput.RoleClaims.Any(c => c != null && c.ClaimValue == claim) ? "checked" : "") />
+                            @claim
+                            <span></span>
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+
+
+        <div class="form-group">
+            <button class="btn btn-danger" type="submit">
+                <i class="fa fa-save"></i>&nbsp;حفظ
+            </button>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,117 @@
+﻿@model HomeViewModel
+@inject IHttpContextAccessor _httpAccessor
+@{
+     ViewBag.Title = "Home";
+
+}
+
+   <form method="get" style="padding-left: 310px; padding-top: 15px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group text-center">
+                <select asp-for="CategoryId" asp-items="Model.CategoriesList" class="form-control custom-select custom-select-lg mb-3">
+left        <option value="">Category</option>
+                </select>
+            </div>
+        </div>
+      
+        <div class="col-md-6">
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+   
+  <section class="py-1">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    @foreach(var produdct in Model.Products)
+                    {
+                      <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Sale badge-->
+                        @if(produdct.Price != produdct.FinalPrice)
+                        {
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        
+                        }
+                        <!-- Product image-->
+                            <img class="card-img-top" src="~/Products/@produdct.ImagePath" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">@produdct.Name</h5>
+                                   
+                                    <!-- Product price-->
+                                @if(produdct.Price != produdct.FinalPrice)
+                                {
+                                    <span class="text-muted text-decoration-line-through">$ @produdct.Price</span>
+                                    @produdct.FinalPrice
+                                }
+                                else
+                                {
+                                    @produdct.Price
+                                }
+
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            @if(_httpAccessor.HttpContext?.User?.FindFirst("Id") != null)
+                            {
+                               <input type="number" id="@produdct.Id" value="" class="form-control">
+                                <div class="text-center">
+<button class="btn btn-outline-dark mt-auto" onclick ="buyproduct('@produdct.Id')"> Buy Now</button>
+                                    </div>
+                                
+                            }else
+                            {
+                                <div class="text-center"><a data-url="@Url.Action("BuyNow",new { productId=produdct.Id })"class="btn btn-outline-dark mt-auto popupFormBtn" data-toggle="modal" data-target="#popupForm" data-title="Edit" title="Edit">Buy Now</a></div>
+
+                            }
+
+                            </div>
+                        </div>
+                    </div>
+                    }
+                   
+                </div>
+            </div>
+        </section>
+<div class="text-center" style="padding-left:45%">
+
+    @Html.PagedListPager(Model.Products, page => Url.Action("Index",new {
+    page
+    }),PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+<script type="text/javascript">
+             function buyproduct(id){
+                   debugger;
+            const qnt=parseInt(document.getElementById(id).value);
+         if(qnt===0 ||isNaN(qnt)){
+            alert("Please Set Quantity")
+         }else{
+             
+                $.post("Home/Buy",{productId:id,qnty:qnt},function(data){
+                    if(data.success){
+
+                     alert(data.message)
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                },"json")
+         }
+            
+
+        }
+    $(function(){
+            $("#dashboard").addClass("active bg-gradient-primary");
+      
+          })
+    
+</script>

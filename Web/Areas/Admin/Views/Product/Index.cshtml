@@ -1,0 +1,111 @@
+﻿@model ProductViewModel
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@{
+    int index = (Model.Products.PageNumber * Model.Products.PageSize) - Model.Products.PageSize;
+}
+@section PageTitile{
+<h3>Products</h3>
+}
+
+@section PageMenue{
+<div class="text-right">
+    <a asp-controller="Product" asp-action="Create" asp-area="Admin" class="btn btn-success"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
+</div>
+}
+<form method="get">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <select asp-for="CategoryId" asp-items="Model.CategoriesList" class="form-control">
+                    <option value="">Category</option>
+                </select>
+            </div>
+        </div>
+      
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card">
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center" style="width: 100px; vertical-align: middle;">Img</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Category</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Discount</th>
+                        <th class="text-center">FinalPrice</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        index++;
+                        <tr>
+                            <td class="text-center">@index</td>
+                             <td class="text-center" style="width:100px ;vertical-align: middle;">
+                    <img width="100" class="img-responsive" src="~/Products/@product.ImagePath" />
+                </td>
+                            <td class="text-center">@product.Name</td>
+                            <td class="text-center">@product.Description</td>
+                            <td class="text-center">@product.CategoryName</td>
+                            <td class="text-center">@product.Price</td>
+                            <td class="text-center">@product.Discount</td>
+                            <td class="text-center">@product.FinalPrice</td>
+                            <td class="text-center">
+                                @if (User.HasClaim(c => c.Value == Permissions.Products.Edit))
+                                {
+                                    <a asp-controller="Product" asp-action="Edit" asp-area="Admin" asp-route-id=@product.Id><i class="fa fa-edit"></i> </a>
+                                }
+                                <a data-id="@product.Id" class="deletebtn" data-placement="top" title="Delete" data-id="@product.Id" data-url="@Url.Action("Delete")"><i class="fa fa-trash"></i> </a>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+
+    @Html.PagedListPager(Model.Products, page => Url.Action("Index",new {
+    page
+    }),PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+<script type="text/javascript">
+    $(function(){
+           $("#products").addClass("menu-open");
+            $("#productsList").addClass("bg-gradient-primary");
+        $(".deletebtn").on('click',function(){
+            const id=$(this).attr('data-id');
+            if(confirm("are u sure to delete")===true){
+                $.post("Product/Delete",{id:id},function(data){
+                    if(data.success){
+
+                        location.reload()
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                },"json")
+            }
+
+        })
+    })
+
+</script>

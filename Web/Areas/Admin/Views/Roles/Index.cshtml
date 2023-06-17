@@ -1,0 +1,81 @@
+﻿@using System.Globalization
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model RoleViewModel
+@{
+    int index = (Model.Roles.PageNumber * Model.Roles.PageSize) - Model.Roles.PageSize;
+}
+@section PageTitile{
+<h3>Roles</h3>
+}
+
+@section PageMenue{
+<div class="text-right">
+    <a asp-controller="Roles" asp-action="Add" asp-area="Admin" class="btn btn-success"><i class="fa fa-plus-circle"></i>Add</a>
+</div>
+}
+
+<div class="card">
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Roles)
+                    {
+                        index++;
+                        <tr>
+                            <td>@index</td>
+                            <td>@item.Name</td>
+                            <td>@item.CreationDate?.ToString("dd-MM-yyyy", new CultureInfo("en-US"))</td>
+                            <td>
+                                <a asp-controller="Roles" asp-action="Edit" asp-area="Admin" asp-route-id=@item.Id><i class="fa fa-edit"></i> </a>
+                                <a data-id="@item.Id" class="deletebtn" data-placement="top" title="Delete" data-id="@item.Id" data-url="@Url.Action("Delete")"><i class="fa fa-trash"></i> </a>
+
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    @Html.PagedListPager(Model.Roles, page => Url.Action("Index",new {
+    page
+    }),PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+
+<script type="text/javascript">
+    $(function(){
+            $("#roles").addClass("menu-open");
+            $("#rolesList").addClass("bg-gradient-primary ");
+        $(".deletebtn").on('click',function(){
+            const id=$(this).attr('data-id');
+            if(confirm("are u sure to delete")===true){
+                $.post("Roles/Delete",{id:id},function(data){
+                    if(data.sucess){
+
+                        location.reload()
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                },"json")
+            }
+
+        })
+    })
+
+</script>

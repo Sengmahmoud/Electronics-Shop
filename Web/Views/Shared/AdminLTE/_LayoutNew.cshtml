@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+  
+
+
+    <title>Electronics Shop</title>
+    <partial name="AdminLTE/_Styles" />
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <partial name="AdminLTE/_TopNavigation" />
+        <partial name="AdminLTE/_MainNavigation" />
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-12">
+                        <div class="col-sm-6">
+                               @RenderSection("PageTitile",false)
+                
+                        </div>
+                         <div class="col-sm-6">
+                           
+                    @RenderSection("PageMenue", false)
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="container-fluid">
+                   
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <aside class="control-sidebar control-sidebar-dark">
+            <div class="p-3">
+                <h5>Title</h5>
+                <p>Sidebar content</p>
+            </div>
+        </aside>
+
+           <!--begin::Modal-->
+    <div class="modal fade" id="popupForm" @*tabindex="-1"*@ role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form" method="post" class="popup">
+                    <input hidden id="url"/>
+                    <div class="modal-body" id="popupFormBody" style="margin: 0;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="saveBtn" type="submit" class="btn btn-danger">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="popupInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row" id="popupInfoBody" style="margin: 0;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+        <partial name="AdminLTE/_Footer" />
+    </div>
+    <partial name="AdminLTE/_Scripts" />
+      <script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+  
+    <!-- end::Body -->
+    <script src="~/assets/js/init.js"></script> 
+</body>
+
+</html>

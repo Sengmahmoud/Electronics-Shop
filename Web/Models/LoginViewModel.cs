@@ -1,0 +1,11 @@
+﻿
+
+namespace Web.Models
+{
+    public class LoginViewModel:ViewModelBase
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public bool RememberMe { get; internal set; }
+    }
+}

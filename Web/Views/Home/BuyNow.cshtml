@@ -1,0 +1,39 @@
+﻿@model HomeViewModel
+@{
+    Layout = null;
+}
+<partial name="/Views/Shared/_message.cshtml" />
+<div class="container">
+    <input type="text" hidden asp-for="OrderInput.Id" />
+    <input type="text" hidden asp-for="OrderInput.ProductId" />
+    <div class="form-group form-work-data col-md-12">
+        <label asp-for="OrderInput.CusomerName" class="text-md-right">
+        </label>
+        <input type="text" asp-for="OrderInput.CusomerName" class="form-control">
+        <span asp-validation-for="OrderInput.CusomerName" class="text-danger field-validation-error"></span>
+
+    </div>
+    <div class="form-group form-work-data col-md-12">
+        <label asp-for="OrderInput.CusomerEmail" class="text-md-right">
+        </label>
+        <input type="text" asp-for="OrderInput.CusomerEmail" class="form-control">
+        <span asp-validation-for="OrderInput.CusomerEmail" class="text-danger field-validation-error"></span>
+
+    </div>
+    <div class="form-group form-work-data col-md-12">
+        <label asp-for="OrderInput.CusomerMobile" class="text-md-right">
+        </label>
+        <input type="text" asp-for="OrderInput.CusomerMobile" class="form-control">
+        <span asp-validation-for="OrderInput.CusomerMobile" class="text-danger field-validation-error"></span>
+
+    </div>
+
+    <div class="form-group form-work-data col-md-12">
+        <label asp-for="OrderInput.Qantity" class="text-md-right">
+        </label>
+        <input type="number" asp-for="OrderInput.Qantity" min="1" class="form-control">
+        <span asp-validation-for="OrderInput.Qantity" class="text-danger field-validation-error"></span>
+
+    </div>
+
+</div>

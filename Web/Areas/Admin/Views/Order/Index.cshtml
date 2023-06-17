@@ -1,0 +1,68 @@
+﻿@model OrderViewModel
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@{
+    int index = (Model.Orders.PageNumber * Model.Orders.PageSize) - Model.Orders.PageSize;
+}
+@section PageTitile{
+<h3>Products</h3>
+}
+
+@section PageMenue{
+
+}
+
+<div class="card">
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Customer Name</th>
+                        <th class="text-center">Customer Mobile</th>
+                        <th class="text-center">Customer Email</th>
+                        <th class="text-center">Product Name</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Total Price</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        index++;
+                        <tr>
+                            <td class="text-center">@index</td>
+                       <td class="text-center">@order.CustomerName</td>
+                            <td class="text-center">@order.CustomerMobile</td>
+                            <td class="text-center">@order.CustomerEmail</td>
+                            <td class="text-center">@order.ProductName</td>
+                            <td class="text-center">@order.Quantity</td>
+                            <td class="text-center">@order.Total</td>
+                     
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+
+    @Html.PagedListPager(Model.Orders, page => Url.Action("Index",new {
+    page
+    }),PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+<script type="text/javascript">
+    $(function(){
+           $("#orders").addClass("menu-open");
+            $("#ordersList").addClass("bg-gradient-primary");
+      
+    })
+
+</script>

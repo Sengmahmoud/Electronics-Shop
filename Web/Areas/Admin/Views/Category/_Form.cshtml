@@ -1,0 +1,27 @@
+﻿
+@model CategoryViewModel
+
+<partial name="/Views/Shared/_message.cshtml" />
+<div class="container">
+    <input type="text" hidden asp-for="Category.Id" />
+    <input type="text" hidden asp-for="Category.ImagePath" />
+    <div class="form-group form-work-data col-md-12">
+        <label asp-for="Category.Name" class="text-md-right">
+        </label>
+        <input type="text" asp-for="Category.Name" class="form-control">
+        <span asp-validation-for="Category.Name" class="text-danger field-validation-error"></span>
+
+    </div>
+    
+     <div class="form-group form-work-data col-md-12">
+        <label asp-for="Category.ImagePath" class="text-md-right">
+        </label>
+        <input type="file" asp-for="Category.Image" value="Upload Photo" class="form-control">
+        <span asp-validation-for="Category.Image" class="text-danger field-validation-error"></span>
+
+    </div>
+  
+</div>
+
+
+

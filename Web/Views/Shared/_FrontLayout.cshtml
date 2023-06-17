@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>E -Shop</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.css.map">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/css/PagedList.css">
+
+    <link href="~/assets/css/styles.css" rel="stylesheet" />
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" style="display:flex" href="#!">
+                <img src="https://image.slidesdocs.com/responsive-images/background/blue-icon-computer-technology-electronic-shopping-laptop-powerpoint-background_04b802a370__960_540.jpg" width="100" height="60" class="d-inline-block align-top" alt="">
+                <h1>E-Shop</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" style="display:flex; padding-left:450px">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                     <li class="nav-item"  style="padding:2px"> <h5>@User.Identity.Name</h5> </li>
+
+                        <li class="nav-item"><a class="btn btn-outline-dark" asp-action="LogOff" asp-controller="Account"><i class="la la-sign-out"></i> Sign Out </a></li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item"> <a class="btn btn-outline-dark" asp-action="Register" asp-controller="account"><i class="fas fa-user"></i> Create Account</a></li>
+
+                        <li class="nav-item"><a class="btn btn-outline-dark" asp-action="Login" asp-controller="account"><i class="fas fa-user"></i>Lognin</a></li>
+                    }
+                </ul>
+
+
+            </div>
+        </div>
+    </nav>
+    <!-- Header-->
+
+
+    <div class="container">
+        <div class="row">
+            @RenderBody()
+
+        </div>
+    </div>
+    <!-- Section-->
+    <!--begin::Modal-->
+    <div class="modal fade" id="popupForm" @*tabindex="-1"*@ role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="form" method="post" class="popup">
+                    <input hidden id="url" />
+                    <div class="modal-body" id="popupFormBody" style="margin: 0;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="saveBtn" type="submit" class="btn btn-danger">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="popupInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row" id="popupInfoBody" style="margin: 0;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Mahmoud Hassan 2023</p></div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="~/assets/js/scripts.js"></script>
+
+    <script src="~/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/assets/js/init.js"></script>
+</body>
+</html>

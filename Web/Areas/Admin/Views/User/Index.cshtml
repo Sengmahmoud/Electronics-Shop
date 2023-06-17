@@ -1,0 +1,87 @@
+﻿@model UserViewModel
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@{
+    int index = (Model.Users.PageNumber * Model.Users.PageSize) - Model.Users.PageSize;
+}
+@section PageTitile{
+<h3>Users</h3>
+}
+
+@section PageMenue{
+<div class="text-right">
+    <a asp-controller="User" asp-action="Add" asp-area="Admin" class="btn btn-success"><i class="fa fa-plus-circle"></i>&nbsp;Add</a>
+</div>
+}
+<div class="card">
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Mobile</th>
+                        <th class="text-center"></th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        index++;
+                        <tr>
+                            <td class="text-center">@index</td>
+                            <td class="text-center">@item.Name</td>
+                            <td class="text-center">@item.Email</td>
+                            <td class="text-center">@item.Mobile</td>
+                            <td class="text-center">@item.Active</td>
+                            <td class="text-center">@item.CreationDate?.ToString("dd-MM-yyyy", new CultureInfo("en-US"))</td>
+                            <td class="text-center">
+                                @if (User.HasClaim(c => c.Value == Permissions.Users.Edit))
+                                {
+                                    <a asp-controller="User" asp-action="Edit" asp-area="Admin" asp-route-id=@item.Id><i class="fa fa-edit"></i> </a>
+                                }
+                                <a data-id="@item.Id" class="deletebtn" data-placement="top" title="Delete" data-id="@item.Id" data-url="@Url.Action("Delete")"><i class="fa fa-trash"></i> </a>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+
+    @Html.PagedListPager(Model.Users, page => Url.Action("Index",new {
+    page
+    }),PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+<script type="text/javascript">
+    $(function(){
+           $("#users").addClass("menu-open");
+            $("#usersList").addClass("bg-gradient-primary");
+        $(".deletebtn").on('click',function(){
+            const id=$(this).attr('data-id');
+            if(confirm("are u sure to delete")===true){
+                $.post("User/Delete",{id:id},function(data){
+                    if(data.sucess){
+
+                        location.reload()
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                },"json")
+            }
+
+        })
+    })
+
+</script>

@@ -1,0 +1,79 @@
+﻿@model CategoryViewModel
+@section PageTitile{
+<h3>Categories</h3>
+}
+
+@section PageMenue{
+<div class="text-right">
+    <button data-url="@Url.Action("Create","Category",new {area = "Admin"})" class="btn btn-success btn-new popupFormBtn" data-toggle="modal" data-target="#popupForm" data-title="Add New">
+        <i class="fa fa-plus-circle"></i>&nbsp;Add
+    </button>
+
+</div>
+}
+
+
+<div class="card">
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 100px; vertical-align: middle;">Img</th>
+                        <th class="text-center">Name</th>
+
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model.Categories)
+                    {
+
+                        <tr>
+
+                            <td class="text-center" style="width:100px ;vertical-align: middle;">
+                                <img width="100" class="img-responsive" src="~/Categories/@category.ImagePath" />
+                            </td>
+                            <td class="text-center">@category.Name</td>
+
+                            <td class="text-center">
+                                @if (User.HasClaim(c => c.Value == Permissions.Users.Edit))
+                                {
+                                      <a data-url="@Url.Action("Edit",new { id=category.Id })" class="popupFormBtn" data-toggle="modal" data-target="#popupForm" data-title="Edit" title="Edit"><i class="fa fa-edit "></i> </a>
+                                }
+                                <a data-id="@category.Id" class="deletebtn" data-placement="top" title="Delete" data-id="@category.Id" data-url="@Url.Action("Delete")"><i class="fa fa-trash"></i> </a>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+           $("#categories").addClass("menu-open");
+            $("#categoriesList").addClass("bg-gradient-primary");
+                    $(".deletebtn").on('click',function(){
+            const id=$(this).attr('data-id');
+            if(confirm("are u sure to delete")===true){
+                $.post("Category/Delete",{id:id},function(data){
+                    if(data.success){
+
+                        location.reload()
+
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                },"json")
+            }
+
+        })
+
+    })
+</script>

@@ -1,0 +1,103 @@
+﻿@model UserViewModel
+<form method="post">
+    <input hidden asp-for="User.Id" />
+
+    <partial name="~/Views/Shared/_message.cshtml" model="Model">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="User.Name" class="text-md-right"></label>
+                <input asp-for="User.Name" type="text" class="form-control" />
+                <span asp-validation-for="User.Name" class="text-danger field-validation-error"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Mobile" class="text-md-right"></label>
+                <input asp-for="User.Mobile" type="text" class="form-control" />
+                <span asp-validation-for="User.Mobile" class="text-danger field-validation-error"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="User.Email" class="text-md-right"></label>
+                <input asp-for="User.Email" type="text" class="form-control" />
+                <span asp-validation-for="User.Email" class="text-danger field-validation-error"></span>
+            </div>
+
+            @*      <div class="form-group">
+                <label asp-for="User.UserName" class="text-md-right"></label>
+                <input asp-for="User.UserName" type="text" class="form-control" />
+                <span asp-validation-for="User.UserName" class="text-danger field-validation-error"></span>
+                </div>*@
+
+         @*   <div class="form-group">
+                <label asp-for="User.Password" class="text-md-right"></label>
+                <input asp-for="User.Password" type="text" class="form-control" />
+                <span asp-validation-for="User.Password" class="text-danger field-validation-error"></span>
+            </div>*@
+
+  @if(Model.User.Id == Guid.Empty)
+    {
+        <div class="form-group col-md-6">
+            <div class="form-group">
+                <label asp-for="User.Password" class="text-md-right"></label>
+                <input asp-for="User.Password" type="password" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <div class="form-group">
+                <label asp-for="User.PasswordConfirm" class="text-md-right"></label>
+                <input asp-for="User.PasswordConfirm" type="password" class="form-control" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="User.Password" />
+        <input type="hidden" asp-for="User.PasswordConfirm" />
+    }
+            <div class="checkbox-inline">
+                <label class="success" cheched="">
+                    Active
+                    <input asp-for="User.Active" />
+                    <span></span>
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Check me out
+                </label>
+            </div>
+              <hr />
+    <div class="row">
+        <label>الصلاحيات</label>
+        <div class="clearfix"></div>
+        <hr />
+        <div class="form-group col-md-12">
+            @foreach (var role in Model.Roles)
+            {     
+                var index = Guid.NewGuid();
+                        <input type="hidden" name="User.UserRoles.Index" value="@index" />
+
+                            <div class="checkbox-inline">
+                                <label class="checkbox-inline" cheched="">
+                                    @role.Name
+                                    <input id="@role.Id" type="checkbox" 
+                               name="User.UserRoles[@index].RoleId"
+                               value="@role.Id" @(Model.User.UserRoles.Any(r =>r.RoleId == role.Id) ? "checked" : "") /> 
+                                    <span></span>
+                                </label>
+                            </div>
+                        }
+                    
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr />
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">
+                    <i class="fa fa-save"></i>&nbsp;Save
+                </button>
+            </div>
+
+        </div>
+</form>
+

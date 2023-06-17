@@ -1,0 +1,16 @@
+﻿@model Web.Common.Models.ViewModelBase
+@if (Model.Success.HasValue)
+{
+    if (Model.Success.Value)
+    {
+        <div class="col-md-12 alert alert-success" role="alert">
+            <div class="alert-text">@Model.Message</div>
+        </div>
+    }
+    else if (!String.IsNullOrWhiteSpace(Model.Message))
+{
+    <div class="col-md-12 alert alert-danger" role="alert">
+        <div class="alert-text">@Model.Message</div>
+    </div>
+}
+}
